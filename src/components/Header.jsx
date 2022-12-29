@@ -26,12 +26,12 @@ const StyledHeader = styled.header`
   padding: 0 4rem;
   .logo {
     img {
-      height: 6rem;
+      height: 4.4rem;
       margin-top: "10px";
     }
   }
   Button {
-    padding: 0.5rem 1rem;
+    padding: 0.3rem 1rem;
     background-color: #e50914;
     border: none;
     cursor: pointer;

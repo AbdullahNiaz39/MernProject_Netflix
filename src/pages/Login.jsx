@@ -64,7 +64,7 @@ const Login = () => {
                 style={{ backgroundColor: "white", marginBottom: "5px" }}
               />
 
-              <Button variant="contained" size="large" onClick={handleLogIn}>
+              <Button variant="contained" size="medium" onClick={handleLogIn}>
                 Log In
               </Button>
             </div>

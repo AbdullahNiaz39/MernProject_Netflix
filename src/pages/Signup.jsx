@@ -124,7 +124,7 @@ const Container = styled.div`
             outline: none;
           }
         }
-        button {
+        Button {
           padding: 0.5rem 1rem;
           background-color: #e50914;
           border: none;
@@ -134,8 +134,8 @@ const Container = styled.div`
           font-size: 1.05rem;
         }
       }
-      button {
-        padding: 0.5rem 1rem;
+      Button {
+        padding: 0.3rem 1rem;
         background-color: #e50914;
         border: none;
         cursor: pointer;
