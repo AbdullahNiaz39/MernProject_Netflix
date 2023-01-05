@@ -19,9 +19,10 @@ const NavBar = ({ isScroll }) => {
     { name: "Movies", link: "/movies" },
     { name: "My List", link: "/myList" },
   ];
+
   return (
     <Container>
-      <nav className={`flex ${isScroll ? "scrolled" : ""}`}>
+      <nav className={`${isScroll ? "scrolled" : ""} flex`}>
         <div className="left flex a-center">
           <div className="brand flex a-center j-center">
             <img src={logo} alt="logo" />

@@ -47,8 +47,6 @@ const Signup = () => {
             </h6>
           </div>
           <div className="form">
-            {/* <input type="email"></input>
-            <input type="password"></input> */}
             <TextField
               type="email"
               label="Email"
