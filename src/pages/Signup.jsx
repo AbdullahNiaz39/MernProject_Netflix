@@ -1,18 +1,40 @@
-import React, { useState } from "react";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
+import React, { useEffect, useState } from "react";
+// import { onAuthStateChanged } from "firebase/auth";
+//import { firebaseAuth } from "../utils/firebase-config";
+//import Spinner from "../components/Spinner";
 import Header from "../components/Header";
 import BackgroundImage from "../components/BackgroundImage";
 import styled from "styled-components";
 import { Button, TextField } from "@mui/material";
-import { firebaseAuth } from "../utils/firebase-config";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { register, reset } from "../features/auth/authSlice";
+
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [formValue, setformValue] = useState({ email: "", password: "" });
+  const [formValue, setformValue] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
+  //Redux
+  const dispatch = useDispatch();
+
+  const { user, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (isSuccess || user) {
+      navigate("/");
+    }
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
   ///HandleChange using set values
   const handleChange = (e) => {
     setformValue({ ...formValue, [e.target.name]: e.target.value });
@@ -20,18 +42,15 @@ const Signup = () => {
   };
 
   //Store Data in firebase
-  const handleSignUp = async () => {
-    try {
-      const { email, password } = formValue;
-      await createUserWithEmailAndPassword(firebaseAuth, email, password);
-    } catch (err) {
-      console.log(err);
-    }
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    const userData = formValue;
+    dispatch(register(userData));
   };
 
-  onAuthStateChanged(firebaseAuth, (currentUser) => {
-    if (currentUser) navigate("/");
-  });
+  // onAuthStateChanged(firebaseAuth, (currentUser) => {
+  //   if (currentUser) navigate("/");
+  // });
 
   return (
     <Container showPassword={showPassword}>
@@ -46,6 +65,7 @@ const Signup = () => {
               Ready to watch? Enter your email to create or restart membership.
             </h6>
           </div>
+
           <div className="form">
             <TextField
               type="email"
@@ -58,16 +78,28 @@ const Signup = () => {
               style={{ backgroundColor: "white", marginBottom: "5px" }}
             />
             {showPassword && (
-              <TextField
-                type="password"
-                label="Password"
-                variant="filled"
-                name="password"
-                required
-                onChange={handleChange}
-                value={formValue.password}
-                style={{ backgroundColor: "white", marginBottom: "5px" }}
-              />
+              <>
+                <TextField
+                  type="password"
+                  label="Password"
+                  variant="filled"
+                  name="password"
+                  required
+                  onChange={handleChange}
+                  value={formValue.password}
+                  style={{ backgroundColor: "white", marginBottom: "5px" }}
+                />
+                <TextField
+                  type="text"
+                  label="Name"
+                  variant="filled"
+                  name="name"
+                  required
+                  onChange={handleChange}
+                  value={formValue.name}
+                  style={{ backgroundColor: "white", marginBottom: "5px" }}
+                />
+              </>
             )}
             {!showPassword && (
               <Button

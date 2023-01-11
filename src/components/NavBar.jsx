@@ -3,13 +3,28 @@ import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/logo.png";
 import { FaPowerOff, FaSearch } from "react-icons/fa";
-import { firebaseAuth } from "../utils/firebase-config";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+// import { firebaseAuth } from "../utils/firebase-config";
+// import { onAuthStateChanged, signOut } from "firebase/auth";
+import { useSelector, useDispatch } from "react-redux";
+import { logout, reset } from "../features/auth/authSlice";
 const NavBar = ({ isScroll }) => {
   const navigate = useNavigate();
-  onAuthStateChanged(firebaseAuth, (currentUser) => {
-    if (!currentUser) navigate("/login");
-  });
+  const dispatch = useDispatch();
+  // onAuthStateChanged(firebaseAuth, (currentUser) => {
+  //   if (!currentUser) navigate("/login");
+  // });
+  const { user } = useSelector((state) => state.auth);
+
+  ///Logout functionality
+  const onLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+    navigate("/login");
+  };
+
+  if (!user) {
+    navigate("/login");
+  }
 
   const [showSearch, setShowSearch] = useState(false);
   const [inputHover, setInputHover] = useState(false);
@@ -62,7 +77,7 @@ const NavBar = ({ isScroll }) => {
               }}
             ></input>
           </div>
-          <button onClick={() => signOut(firebaseAuth)}>
+          <button onClick={onLogout}>
             <FaPowerOff />
           </button>
         </div>

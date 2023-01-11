@@ -7,7 +7,7 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import NavBar from "../components/NavBar";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMovies, getGenres } from "../store";
+import { fetchMovies, getGenres } from "../features/netflixSlice/index";
 import Slider from "../components/Slider";
 
 const Netflix = () => {

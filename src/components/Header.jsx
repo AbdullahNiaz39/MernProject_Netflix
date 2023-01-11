@@ -3,8 +3,10 @@ import styled from "styled-components";
 import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+
 const Header = (props) => {
   const navigate = useNavigate();
+
   return (
     <StyledHeader className="flex a-center j-between">
       <div className="logo">

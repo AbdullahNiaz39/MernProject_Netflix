@@ -1,32 +1,56 @@
-import React, { useState } from "react";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { login, reset } from "../features/auth/authSlice";
+//import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+//import { firebaseAuth } from "../utils/firebase-config";
 import Header from "../components/Header";
 import BackgroundImage from "../components/BackgroundImage";
 import styled from "styled-components";
 import { Button, TextField } from "@mui/material";
-import { firebaseAuth } from "../utils/firebase-config";
+
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 const Login = () => {
   const [formValue, setformValue] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+  //Redux
+  const dispatch = useDispatch();
+
+  const { user, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (isSuccess || user) {
+      navigate("/");
+    }
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
+
   ///HandleChange using set values
   const handleChange = (e) => {
     setformValue({ ...formValue, [e.target.name]: e.target.value });
   };
 
   //Store Data in firebase
-  const handleLogIn = async () => {
-    try {
-      const { email, password } = formValue;
-      await signInWithEmailAndPassword(firebaseAuth, email, password);
-    } catch (err) {
-      console.log(err);
-    }
+  const handleLogIn = async (e) => {
+    e.preventDefault();
+    const userData = formValue;
+    dispatch(login(userData));
+    // try {
+    //   const { email, password } = formValue;
+    //   await signInWithEmailAndPassword(firebaseAuth, email, password);
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
-  onAuthStateChanged(firebaseAuth, (currentUser) => {
-    if (currentUser) navigate("/");
-  });
+  // onAuthStateChanged(firebaseAuth, (currentUser) => {
+  //   if (currentUser) navigate("/");
+  // });
 
   return (
     <Container>
