@@ -110,11 +110,12 @@ const Signup = () => {
                 Get Started
               </Button>
             )}
+            {showPassword && (
+              <Button variant="contained" size="large" onClick={handleSignUp}>
+                Sign Up
+              </Button>
+            )}
           </div>
-
-          <Button variant="contained" size="large" onClick={handleSignUp}>
-            Sign Up
-          </Button>
         </div>
       </div>
     </Container>
