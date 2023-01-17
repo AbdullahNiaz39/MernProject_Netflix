@@ -17,7 +17,9 @@ const Netflix = () => {
   const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
   const movies = useSelector((state) => state.netflix.movies);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  //To get Genres
   useEffect(() => {
     dispatch(getGenres());
     // eslint-disable-next-line
@@ -25,14 +27,15 @@ const Netflix = () => {
 
   useEffect(() => {
     if (genresLoaded) dispatch(fetchMovies({ type: "all" }));
-  });
-  const navigate = useNavigate();
+    // eslint-disable-next-line
+  }, [genresLoaded]);
 
   //scroll for background
   window.onscroll = () => {
     setIsScrolled(window.pageYOffset === 0 ? false : true);
     return () => (window.onscroll = null);
   };
+
   return (
     <Container>
       <NavBar isScroll={isScrolled} />
