@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/Login";
 import Movies from "./pages/Movies";
+import MyList from "./pages/MyList";
 import Netflix from "./pages/Netflix";
 import Player from "./pages/Player";
 import Signup from "./pages/Signup";
@@ -18,6 +19,7 @@ const App = () => {
           <Route exact path="/player" element={<Player />} />
           <Route exact path="/movies" element={<Movies />} />
           <Route exact path="/tvShows" element={<TVShows />} />
+          <Route exact path="/myList" element={<MyList />} />
           <Route exact path="/" element={<Netflix />} />
         </Routes>
       </BrowserRouter>

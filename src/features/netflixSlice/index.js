@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 import { API_KEY, TMBD_BASE_URL } from "../../utils/constants";
 
 const initialState = {
@@ -79,8 +79,60 @@ export const fetchDataByGenres = createAsyncThunk(
   }
 );
 
-///Store Functionality using createSlice
+//Get liked Movies Method
+export const getUserLikedMovies = createAsyncThunk(
+  "netflix/getLiked",
+  async (user) => {
+    try {
+      const {
+        data: { movies },
+      } = await axios.get("http://localhost:5000/api/users/liked", {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      return movies;
+    } catch (err) {
+      const message =
+        (err.response && err.response.data && err.response.data.message) ||
+        err.message ||
+        err.toString();
+      toast.error(message);
+    }
+  }
+);
 
+//Get liked Movies Method
+export const removeLikedMovies = createAsyncThunk(
+  "netflix/removeLiked",
+  async ({ user, movieId }) => {
+    try {
+      const {
+        data: { movies, message },
+      } = await axios.put(
+        "http://localhost:5000/api/users/liked",
+        {
+          movieId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      toast.success(message);
+      return movies;
+    } catch (err) {
+      const message =
+        (err.response && err.response.data && err.response.data.message) ||
+        err.message ||
+        err.toString();
+      toast.error(message);
+    }
+  }
+);
+
+///Store Functionality using createSlice
 export const NetflixSlice = createSlice({
   name: "netflix",
   initialState,
@@ -93,6 +145,12 @@ export const NetflixSlice = createSlice({
       state.movies = action.payload;
     });
     builder.addCase(fetchDataByGenres.fulfilled, (state, action) => {
+      state.movies = action.payload;
+    });
+    builder.addCase(getUserLikedMovies.fulfilled, (state, action) => {
+      state.movies = action.payload;
+    });
+    builder.addCase(removeLikedMovies.fulfilled, (state, action) => {
       state.movies = action.payload;
     });
   },

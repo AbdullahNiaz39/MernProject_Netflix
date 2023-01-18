@@ -9,11 +9,16 @@ import { BsCheck } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BiChevronDown } from "react-icons/bi";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { removeLikedMovies } from "../features/netflixSlice";
 const Card = ({ movieData, isLiked = false }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  console.log(movieData.id);
+
+  ///handlPlay
   const handlePlay = () => {
     navigate("/player");
   };
@@ -70,7 +75,14 @@ const Card = ({ movieData, isLiked = false }) => {
                 <RiThumbUpFill title="Like" />
                 <RiThumbDownFill title="Dislike" />
                 {isLiked ? (
-                  <BsCheck title="Remove from List" />
+                  <BsCheck
+                    title="Remove from List"
+                    onClick={() =>
+                      dispatch(
+                        removeLikedMovies({ user, movieId: movieData.id })
+                      )
+                    }
+                  />
                 ) : (
                   <AiOutlinePlus title="Add to my list" onClick={addToList} />
                 )}
