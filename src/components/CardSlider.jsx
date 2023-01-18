@@ -8,7 +8,7 @@ const CardSlider = ({ data, title }) => {
   const listRef = useRef();
 
   const handleDirection = (direction) => {
-    const cardWidth = 125; // width of each movie card
+    const cardWidth = 120; // width of each movie card
     let newPosition = sliderPosition;
     if (direction === "left" && sliderPosition > 0) {
       newPosition = sliderPosition - 1;

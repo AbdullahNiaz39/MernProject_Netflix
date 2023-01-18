@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import video from "../assets/video.mp4";
 import styled from "styled-components";
 import { IoPlayCircleSharp } from "react-icons/io5";
@@ -7,12 +8,38 @@ import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
 import { BsCheck } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BiChevronDown } from "react-icons/bi";
-
+import axios from "axios";
+import { useSelector } from "react-redux";
 const Card = ({ movieData, isLiked = false }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const handlePlay = () => {
     navigate("/player");
+  };
+
+  const addToList = async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/users/liked",
+
+        {
+          data: movieData,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      toast.success(res.data.message);
+    } catch (err) {
+      const message =
+        (err.response && err.response.data && err.response.data.message) ||
+        err.message ||
+        err.toString();
+      toast.error(message);
+    }
   };
   return (
     <Container
@@ -45,7 +72,7 @@ const Card = ({ movieData, isLiked = false }) => {
                 {isLiked ? (
                   <BsCheck title="Remove from List" />
                 ) : (
-                  <AiOutlinePlus title="Add to my list" />
+                  <AiOutlinePlus title="Add to my list" onClick={addToList} />
                 )}
               </div>
               <div className="info">
