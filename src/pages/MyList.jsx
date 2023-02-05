@@ -28,13 +28,14 @@ const MyList = () => {
     return () => (window.onscroll = null);
   };
 
+  console.log(movies);
   return (
     <Container>
       <NavBar isScrolled={isScrolled} />
       <div className="content flex column">
         <h1>MyList</h1>
         <div className="grid flex">
-          {movies !== "" ? (
+          {movies.length !== 0 ? (
             movies.map((movie, index) => (
               <Card
                 movieData={movie}
