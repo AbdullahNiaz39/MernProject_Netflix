@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 import { login, reset } from "../features/auth/authSlice";
-//import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-//import { firebaseAuth } from "../utils/firebase-config";
 import Header from "../components/Header";
 import BackgroundImage from "../components/BackgroundImage";
 import styled from "styled-components";
 import { Button, TextField } from "@mui/material";
-
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 const Login = () => {
-  const [formValue, setformValue] = useState({ email: "", password: "" });
   const navigate = useNavigate();
   //Redux
   const dispatch = useDispatch();
@@ -30,15 +28,20 @@ const Login = () => {
     dispatch(reset());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
 
-  ///HandleChange using set values
-  const handleChange = (e) => {
-    setformValue({ ...formValue, [e.target.name]: e.target.value });
-  };
+  /// Formik Validation ///
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(3, "Password must be at least 3 characters")
+      .required("Password is required"),
+  });
 
-  //Store Data in firebase
-  const handleLogIn = async (e) => {
-    e.preventDefault();
-    const userData = formValue;
+  //login using Email
+  const handleLogIn = async (values) => {
+    const userData = values;
+    console.log(userData);
     dispatch(login(userData));
   };
 
@@ -52,42 +55,61 @@ const Login = () => {
             <div className="title">
               <h3>Login</h3>
             </div>
+            {/*  formik Valdiation */}
 
-            <div className="container flex column">
-              <TextField
-                type="email"
-                label="Email Address"
-                variant="filled"
-                name="email"
-                className="txtField"
-                required
-                onChange={handleChange}
-                value={formValue.email}
-                style={{ backgroundColor: "white", marginBottom: "5px" }}
-              />
+            <Formik
+              initialValues={{ email: "", password: "" }}
+              validationSchema={validationSchema}
+              onSubmit={(values) => handleLogIn(values)}
+            >
+              {({ errors, touched, isValidating }) => (
+                <Form>
+                  <div className="container flex column">
+                    <Field
+                      type="email"
+                      label="Email Address"
+                      variant="filled"
+                      name="email"
+                      className="txtField"
+                      required
+                      as={TextField}
+                      error={errors.email && touched.email}
+                      helperText={errors.email}
+                      style={{ backgroundColor: "white", marginBottom: "5px" }}
+                    />
 
-              <TextField
-                type="password"
-                label="Password"
-                variant="filled"
-                name="password"
-                required
-                className="txtField"
-                onChange={handleChange}
-                value={formValue.password}
-                style={{ backgroundColor: "white", marginBottom: "5px" }}
-              />
+                    <Field
+                      type="password"
+                      label="Password"
+                      variant="filled"
+                      name="password"
+                      required
+                      className="txtField"
+                      as={TextField}
+                      error={errors.password && touched.password}
+                      helperText={errors.password}
+                      style={{ backgroundColor: "white", marginBottom: "5px" }}
+                    />
 
-              <Button variant="contained" size="medium" onClick={handleLogIn}>
-                Log In
-              </Button>
-            </div>
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      type="submit"
+                      disabled={isValidating}
+                    >
+                      Log In
+                    </Button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
         </div>
       </div>
     </Container>
   );
 };
+
 const Container = styled.div`
   position: relative;
   .content {
