@@ -41,7 +41,6 @@ const Login = () => {
   //login using Email
   const handleLogIn = async (values) => {
     const userData = values;
-    console.log(userData);
     dispatch(login(userData));
   };
 

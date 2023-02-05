@@ -34,7 +34,7 @@ const MyList = () => {
       <div className="content flex column">
         <h1>MyList</h1>
         <div className="grid flex">
-          {movies != "" ? (
+          {movies !== "" ? (
             movies.map((movie, index) => (
               <Card
                 movieData={movie}
