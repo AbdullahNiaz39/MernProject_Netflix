@@ -3,8 +3,11 @@ import styled from "styled-components";
 import video from "../assets/video.mp4";
 import { BsArrowLeft } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Player = () => {
+  const movies = useSelector((state) => state.netflix.movies);
+  console.log(movies.id);
   const navigate = useNavigate();
   return (
     <Container>

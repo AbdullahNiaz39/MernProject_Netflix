@@ -11,12 +11,34 @@ import { BiChevronDown } from "react-icons/bi";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { removeLikedMovies } from "../features/netflixSlice";
+import { API_KEY } from "../utils/constants";
+import { useEffect } from "react";
+
 const Card = ({ movieData, isLiked = false }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { user } = useSelector((state) => state.auth);
+  // const [trailer, setTrailer] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   console.log(movieData.id);
+
+  ///Fetch Trailer Movies
+  // const fetchTrailer = async () => {
+  //   try {
+  //     const res = await axios.get(
+  //       `https://api.themoviedb.org/3/movie/${movieData.id}/videos?api_key=${API_KEY}`
+  //     );
+  //     setTrailer(`https://www.youtube.com/watch?v=${res.data.results[0]}`);
+  //     console.log(trailer);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchTrailer();
+  //   // eslint-disable-next-line
+  // }, [movieData.id]);
 
   ///handlPlay
   const handlePlay = () => {
@@ -46,6 +68,7 @@ const Card = ({ movieData, isLiked = false }) => {
       toast.error(message);
     }
   };
+
   return (
     <Container
       onMouseEnter={() => setIsHovered(true)}
@@ -104,6 +127,7 @@ const Card = ({ movieData, isLiked = false }) => {
     </Container>
   );
 };
+
 const Container = styled.div`
   width: 230px;
   width: 230px;

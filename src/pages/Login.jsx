@@ -40,17 +40,7 @@ const Login = () => {
     e.preventDefault();
     const userData = formValue;
     dispatch(login(userData));
-    // try {
-    //   const { email, password } = formValue;
-    //   await signInWithEmailAndPassword(firebaseAuth, email, password);
-    // } catch (err) {
-    //   console.log(err);
-    // }
   };
-
-  // onAuthStateChanged(firebaseAuth, (currentUser) => {
-  //   if (currentUser) navigate("/");
-  // });
 
   return (
     <Container>

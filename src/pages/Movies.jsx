@@ -16,7 +16,7 @@ const Movies = () => {
   const movies = useSelector((state) => state.netflix.movies);
   const genres = useSelector((state) => state.netflix.genres);
   const dispatch = useDispatch();
-
+  console.log(movies);
   //To get Genres
   useEffect(() => {
     dispatch(getGenres());
