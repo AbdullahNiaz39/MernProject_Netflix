@@ -5,7 +5,7 @@ const API_URL = "api/users";
 //Register User
 const register = async (userData) => {
   const response = await axios.post(
-    `http://localhost:5000/${API_URL}`,
+    `https://shy-erin-iguana-wig.cyclic.app/${API_URL}`,
     userData
   );
   if (response.data) {
@@ -17,7 +17,7 @@ const register = async (userData) => {
 //Login User
 const login = async (userData) => {
   const response = await axios.post(
-    `http://localhost:5000/${API_URL}/login`,
+    `https://shy-erin-iguana-wig.cyclic.app/${API_URL}/login`,
     userData
   );
   if (response.data) {

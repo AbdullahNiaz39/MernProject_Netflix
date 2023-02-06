@@ -110,7 +110,7 @@ export const removeLikedMovies = createAsyncThunk(
       const {
         data: { movies, message },
       } = await axios.put(
-        "http://localhost:5000/api/users/liked",
+        "https://shy-erin-iguana-wig.cyclic.app/api/users/liked",
         {
           movieId,
         },
