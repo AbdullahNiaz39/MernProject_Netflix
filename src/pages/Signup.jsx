@@ -166,7 +166,7 @@ const Container = styled.div`
         display: grid;
         width: 20%;
         @media (max-width: 950px) {
-          width: 40%;
+          width: 55%;
           margin: 0 auto;
         }
         TextField {
