@@ -129,11 +129,19 @@ const Container = styled.div`
         width: 30vw;
         gap: 2rem;
         color: white;
+        text-align: center;
+        margin: 0 auto;
+        @media (max-width: 900px) {
+          width: auto;
+        }
         .container {
           gap: 2rem;
           .txtField {
             width: 17rem;
             color: white;
+            @media (max-width: 500px) {
+              width: 100%;
+            }
           }
           Button {
             padding: 0.5rem 1rem;

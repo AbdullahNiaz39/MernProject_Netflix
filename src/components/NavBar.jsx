@@ -3,16 +3,11 @@ import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/logo.png";
 import { FaPowerOff, FaSearch } from "react-icons/fa";
-// import { firebaseAuth } from "../utils/firebase-config";
-// import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
 const NavBar = ({ isScroll }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // onAuthStateChanged(firebaseAuth, (currentUser) => {
-  //   if (!currentUser) navigate("/login");
-  // });
   const { user } = useSelector((state) => state.auth);
 
   ///Logout functionality
@@ -28,6 +23,7 @@ const NavBar = ({ isScroll }) => {
 
   const [showSearch, setShowSearch] = useState(false);
   const [inputHover, setInputHover] = useState(false);
+
   const links = [
     { name: "Home", link: "/" },
     { name: "TV Shows", link: "/tvShows" },
@@ -177,5 +173,36 @@ const Container = styled.div`
       }
     }
   }
+
+  @media (max-width: 768px) {
+    nav {
+      height: 4.5rem;
+      padding: 0 2rem;
+      .left {
+        gap: 1rem;
+        .brand {
+          img {
+            height: 3rem;
+          }
+        }
+        .links {
+          gap: 1rem;
+        }
+      }
+      .right {
+        gap: 0.5rem;
+        svg {
+          font-size: 1rem;
+        }
+        .search {
+          button svg {
+            font-size: 1rem;
+          }
+          input {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
 `;
 export default NavBar;

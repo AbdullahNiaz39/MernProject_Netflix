@@ -156,11 +156,19 @@ const Container = styled.div`
         font-size: 1.3rem;
         h1 {
           padding: 0 25rem;
+          @media (max-width: 950px) {
+            padding: 1rem;
+            text-align: center;
+          }
         }
       }
       .form {
         display: grid;
         width: 20%;
+        @media (max-width: 950px) {
+          width: 40%;
+          margin: 0 auto;
+        }
         TextField {
           color: black;
           border: none;

@@ -26,6 +26,8 @@ const Header = (props) => {
 
 const StyledHeader = styled.header`
   padding: 0 4rem;
+  height: 100%;
+  width: 100%;
   .logo {
     img {
       height: 4.4rem;
@@ -41,6 +43,19 @@ const StyledHeader = styled.header`
     border-radius: 0.2rem;
     font-weight: bolder;
     font-size: 1rem;
+  }
+
+  @media (max-width: 767px) {
+    padding: 0 2rem;
+    .logo {
+      img {
+        height: 3rem;
+        margin-top: "5px";
+      }
+    }
+    Button {
+      font-size: 0.8rem;
+    }
   }
 `;
 
