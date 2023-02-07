@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-// import { onAuthStateChanged } from "firebase/auth";
-//import { firebaseAuth } from "../utils/firebase-config";
-//import Spinner from "../components/Spinner";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
 import Header from "../components/Header";
 import BackgroundImage from "../components/BackgroundImage";
 import styled from "styled-components";
@@ -13,11 +12,7 @@ import { register, reset } from "../features/auth/authSlice";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [formValue, setformValue] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+
   const navigate = useNavigate();
   //Redux
   const dispatch = useDispatch();
@@ -35,22 +30,21 @@ const Signup = () => {
     }
     dispatch(reset());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
-  ///HandleChange using set values
-  const handleChange = (e) => {
-    setformValue({ ...formValue, [e.target.name]: e.target.value });
-    console.log(formValue);
-  };
+
+  /// Formik Validation ///
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string()
+      .min(3, "Password must be 3 characters or longer")
+      .required("Password is required"),
+  });
 
   //Store Data in firebase
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-    const userData = formValue;
+  const handleSignUp = async (values) => {
+    const userData = values;
     dispatch(register(userData));
   };
-
-  // onAuthStateChanged(firebaseAuth, (currentUser) => {
-  //   if (currentUser) navigate("/");
-  // });
 
   return (
     <Container showPassword={showPassword}>
@@ -65,56 +59,79 @@ const Signup = () => {
               Ready to watch? Enter your email to create or restart membership.
             </h6>
           </div>
-
-          <div className="form">
-            <TextField
-              type="email"
-              label="Email"
-              variant="filled"
-              name="email"
-              required
-              onChange={handleChange}
-              value={formValue.email}
-              style={{ backgroundColor: "white", marginBottom: "5px" }}
-            />
-            {showPassword && (
-              <>
-                <TextField
-                  type="password"
-                  label="Password"
+          <Formik
+            initialValues={{ email: "", password: "", name: "" }}
+            validationSchema={validationSchema}
+            onSubmit={(values) => handleSignUp(values)}
+          >
+            {({ errors, touched, isValidating }) => (
+              <Form className="form">
+                <Field
+                  as={TextField}
+                  type="email"
+                  label="Email"
                   variant="filled"
-                  name="password"
+                  name="email"
                   required
-                  onChange={handleChange}
-                  value={formValue.password}
+                  error={errors.email && touched.email}
+                  helperText={errors.email}
                   style={{ backgroundColor: "white", marginBottom: "5px" }}
                 />
-                <TextField
-                  type="text"
-                  label="Name"
-                  variant="filled"
-                  name="name"
-                  required
-                  onChange={handleChange}
-                  value={formValue.name}
-                  style={{ backgroundColor: "white", marginBottom: "5px" }}
-                />
-              </>
-            )}
-            {!showPassword && (
-              <Button
-                variant="contained"
-                size="large"
-                onClick={() => setShowPassword(true)}
-              >
-                Get Started
-              </Button>
-            )}
-          </div>
+                {showPassword && (
+                  <>
+                    <Field
+                      as={TextField}
+                      type="password"
+                      label="Password"
+                      variant="filled"
+                      name="password"
+                      required
+                      error={errors.password && touched.password}
+                      helperText={errors.password}
+                      style={{
+                        backgroundColor: "white",
+                        marginBottom: "5px",
+                      }}
+                    />
+                    <Field
+                      as={TextField}
+                      type="text"
+                      label="Name"
+                      variant="filled"
+                      name="name"
+                      required
+                      error={errors.name && touched.name}
+                      helperText={errors.name}
+                      style={{
+                        backgroundColor: "white",
+                        marginBottom: "5px",
+                      }}
+                    />
+                  </>
+                )}
+                {!showPassword && (
+                  <Button
+                    variant="contained"
+                    size="large"
+                    className="btn-started"
+                    onClick={() => setShowPassword(true)}
+                  >
+                    Get Started
+                  </Button>
+                )}
 
-          <Button variant="contained" size="large" onClick={handleSignUp}>
-            Sign Up
-          </Button>
+                <Button
+                  variant="contained"
+                  size="large"
+                  className="btn-signup"
+                  disabled={isValidating}
+                  type="submit"
+                >
+                  Sign Up
+                </Button>
+              </Form>
+            )}
+          </Formik>
         </div>
       </div>
     </Container>
@@ -143,7 +160,7 @@ const Container = styled.div`
       }
       .form {
         display: grid;
-        width: 30%;
+        width: 20%;
         TextField {
           color: black;
           border: none;
@@ -154,25 +171,26 @@ const Container = styled.div`
             outline: none;
           }
         }
-        Button {
+        .btn-started {
           padding: 0.5rem 1rem;
           background-color: #e50914;
+          margin-bottom: 5px;
           border: none;
           cursor: pointer;
           color: white;
           font-weight: bolder;
           font-size: 1.05rem;
         }
-      }
-      Button {
-        padding: 0.3rem 1rem;
-        background-color: #e50914;
-        border: none;
-        cursor: pointer;
-        color: white;
-        border-radius: 0.2rem;
-        font-weight: bolder;
-        font-size: 1.05rem;
+        .btn-signup {
+          padding: 0.3rem 1rem;
+          background-color: #e50914;
+          border: none;
+          cursor: pointer;
+          color: white;
+          border-radius: 0.2rem;
+          font-weight: bolder;
+          font-size: 1.05rem;
+        }
       }
     }
   }
