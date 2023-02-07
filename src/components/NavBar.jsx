@@ -5,6 +5,7 @@ import logo from "../assets/logo.png";
 import { FaPowerOff, FaSearch } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
+
 const NavBar = ({ isScroll }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,8 +27,8 @@ const NavBar = ({ isScroll }) => {
 
   const links = [
     { name: "Home", link: "/" },
-    { name: "TV Shows", link: "/tvShows" },
     { name: "Movies", link: "/movies" },
+    { name: "TV Shows", link: "/tvShows" },
     { name: "My List", link: "/myList" },
   ];
 
@@ -38,6 +39,7 @@ const NavBar = ({ isScroll }) => {
           <div className="brand flex a-center j-center">
             <img src={logo} alt="logo" />
           </div>
+
           <ul className="links flex">
             {links.map(({ name, link }) => (
               <li key={name}>
@@ -174,15 +176,15 @@ const Container = styled.div`
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 600px) {
     nav {
-      height: 4.5rem;
+      height: 6.5rem;
       padding: 0 2rem;
       .left {
-        gap: 1rem;
+        gap: 0.1rem;
         .brand {
           img {
-            height: 3rem;
+            height: 2.2rem;
           }
         }
         .links {
@@ -190,7 +192,7 @@ const Container = styled.div`
         }
       }
       .right {
-        gap: 0.5rem;
+        gap: 0.5rem;        
         svg {
           font-size: 1rem;
         }

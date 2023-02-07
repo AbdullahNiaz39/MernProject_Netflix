@@ -114,5 +114,44 @@ const Container = styled.div`
       }
     }
   }
+
+  @media (max-width: 700px) {
+    .hero {
+      img {
+        height: 50vh;
+      }
+      .container {
+        .logo {
+          img {
+            margin: 2rem;
+            width: 50%;
+          }
+        }
+        .buttons {
+          margin: 2rem;
+          button {
+            font-size: 1.2rem;
+            padding: 0.2rem 0.5rem;
+            padding-left: 1.5rem;
+            padding-right: 1.8rem;
+            svg {
+              font-size: 1.6rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media (max-width: 400px) {
+    .hero .container .buttons button {
+      font-size: 1rem;
+      padding: 0.1rem 0.3rem;
+      padding-left: 1rem;
+      padding-right: 1.2rem;
+      svg {
+        font-size: 1.4rem;
+      }
+    }
+  }
 `;
 export default Netflix;
