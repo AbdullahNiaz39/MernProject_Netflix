@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/logo.png";
@@ -178,13 +179,13 @@ const Container = styled.div`
 
   @media (max-width: 600px) {
     nav {
-      height: 6.5rem;
+      height: 4.5rem;
       padding: 0 2rem;
       .left {
         gap: 0.1rem;
         .brand {
           img {
-            height: 2.2rem;
+            height: 2.1rem;
           }
         }
         .links {
@@ -192,7 +193,8 @@ const Container = styled.div`
         }
       }
       .right {
-        gap: 0.5rem;        
+        gap: 0.5rem;
+        
         svg {
           font-size: 1rem;
         }

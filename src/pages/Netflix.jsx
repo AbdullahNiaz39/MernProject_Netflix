@@ -118,7 +118,7 @@ const Container = styled.div`
   @media (max-width: 700px) {
     .hero {
       img {
-        height: 50vh;
+        height: 100vh;
       }
       .container {
         .logo {

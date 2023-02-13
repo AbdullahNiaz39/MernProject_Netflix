@@ -27,7 +27,7 @@ const Card = ({ movieData, isLiked = false }) => {
   const addToList = async () => {
     try {
       const res = await axios.post(
-        "https://shy-erin-iguana-wig.cyclic.app/api/users/liked",
+        "http://localhost:5000/api/users/liked",
 
         {
           data: movieData,
