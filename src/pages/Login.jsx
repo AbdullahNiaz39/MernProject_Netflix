@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Snipper from "../components/Spinner";
 import { toast } from "react-toastify";
 import { login, reset } from "../features/auth/authSlice";
 import Header from "../components/Header";
@@ -14,7 +15,7 @@ const Login = () => {
   //Redux
   const dispatch = useDispatch();
 
-  const { user, isError, isSuccess, message } = useSelector(
+  const { user, isloading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
 
@@ -43,6 +44,11 @@ const Login = () => {
     const userData = values;
     dispatch(login(userData));
   };
+
+  if (isloading) {
+    console.log("component - unmount");
+    return <Snipper />;
+  }
 
   return (
     <Container>
