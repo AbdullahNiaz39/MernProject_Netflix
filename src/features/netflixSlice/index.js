@@ -86,11 +86,14 @@ export const getUserLikedMovies = createAsyncThunk(
     try {
       const {
         data: { movies },
-      } = await axios.get("http://localhost:5000/api/users/liked", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      } = await axios.get(
+        "https://shy-erin-iguana-wig.cyclic.app/api/users/liked",
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       return movies;
     } catch (err) {
       const message =
@@ -110,7 +113,7 @@ export const removeLikedMovies = createAsyncThunk(
       const {
         data: { movies, message },
       } = await axios.put(
-        "http://localhost:5000/api/users/liked",
+        "https://shy-erin-iguana-wig.cyclic.app/api/users/liked",
         {
           movieId,
         },
